@@ -1,8 +1,11 @@
 import {initializeApp} from 'firebase/app';
 import {getAuth, 
         signInWithPopup,
+        signInWithEmailAndPassword,
         GoogleAuthProvider,
-        createUserWithEmailAndPassword
+        createUserWithEmailAndPassword,
+        signOut,
+        onAuthStateChanged,
 } from 'firebase/auth'
 
 import {
@@ -21,7 +24,7 @@ const firebaseConfig = {
     measurementId: "G-3SPC12TMQ7"
   };
 
-const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
@@ -64,4 +67,16 @@ export const createUserDocumentFromAuth = async (userAuth,
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if(!email || !password) return;
     return await createUserWithEmailAndPassword(auth, email, password);
+}
+
+export const signInAuthUserWithEmailAndPassword = async (email , password) =>{
+    if(!email || !password) return;
+    return await signInWithEmailAndPassword(auth, email, password);
+}
+
+export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback) => {
+
+    onAuthStateChanged(auth, callback )
 }
